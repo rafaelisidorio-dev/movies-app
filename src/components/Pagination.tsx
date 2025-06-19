@@ -1,73 +1,114 @@
-// import { SetURLSearchParams } from "react-router-dom";
+import { type ReactNode } from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "./ui/pagination";
+import { useNavigate } from "react-router-dom";
 
-// interface PaginationProps {
-//   pages: number;
-//   page: number;
-//   setSearchParams: SetURLSearchParams;
-// }
+interface PaginationProps {
+  pages: number;
+  page: number;
+  goToPage: (pageNumber: number) => void;
+}
 
-// export function Pagination({ pages, page, setSearchParams }: PaginationProps) {
-//   function firstPage() {
-//     setSearchParams((params) => {
-//       params.set("page", String((page = 1)));
+export function PaginationSection({ pages, page }: PaginationProps) {
+  if (pages > 500) {
+    pages = 500;
+  }
 
-//       return params;
-//     });
-//   }
+  const navigate = useNavigate();
 
-//   function previousPage() {
-//     if (page - 1 <= 0) {
-//       return;
-//     }
+  // Navigate between links without reloading the page
+  function goToPage(pageNumber: number) {
+    navigate(`?page=${pageNumber}`);
+  }
 
-//     setSearchParams((params) => {
-//       params.set("page", String(page - 1));
+  function renderPageNumbers() {
+    const items: ReactNode[] = [];
 
-//       return params;
-//     });
-//   }
+    items.push(
+      <PaginationItem key={1} className="hover:cursor-pointer">
+        <PaginationLink onClick={() => goToPage(1)} isActive={page === 1}>
+          1
+        </PaginationLink>
+      </PaginationItem>,
+    );
 
-//   function nextPage() {
-//     if (page + 1 > pages) {
-//       return;
-//     }
+    if (page > 3) {
+      items.push(
+        <PaginationItem key="ellipsis-start">
+          <PaginationEllipsis />
+        </PaginationItem>,
+      );
+    }
 
-//     setSearchParams((params) => {
-//       params.set("page", String(page + 1));
+    const start = Math.max(2, page - 1);
+    const end = Math.min(pages - 1, page + 1);
 
-//       return params;
-//     });
-//   }
+    for (let i = start; i <= end; i++) {
+      items.push(
+        <PaginationItem key={i} className="hover:cursor-pointer">
+          <PaginationLink onClick={() => goToPage(i)} isActive={page === i}>
+            {i}
+          </PaginationLink>
+        </PaginationItem>,
+      );
+    }
 
-//   function lastPage() {
-//     setSearchParams((params) => {
-//       params.set("page", String(pages));
+    if (page < pages - 2) {
+      items.push(
+        <PaginationItem key="ellipsis-end">
+          <PaginationEllipsis />
+        </PaginationItem>,
+      );
+    }
 
-//       return params;
-//     });
-//   }
+    items.push(
+      <PaginationItem key="last-page" className="hover:cursor-pointer">
+        <PaginationLink
+          onClick={() => goToPage(pages)}
+          isActive={page === pages}
+        >
+          {pages}
+        </PaginationLink>
+      </PaginationItem>,
+    );
 
-//   if (pages > 500) {
-//     pages = 500;
-//   }
+    return items;
+  }
 
-//   return (
-//     <div className="flex justify-center items-center gap-8">
-//       <button onClick={firstPage}>1</button>
-//       <button onClick={previousPage}>{"<"}</button>
-//       <span>
-//         {page} of {pages}
-//       </span>
-//       <button onClick={nextPage}>{">"}</button>
-//       <button onClick={lastPage}>{pages}</button>
-//     </div>
-//   );
-// }
-
-export function Pagination() {
   return (
-    <div className="flex items-center gap-4">
-      <h1>Pagination</h1>
+    <div className="flex justify-center items-center gap-8">
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem className="hover:cursor-pointer">
+            <PaginationPrevious
+              onClick={() => goToPage(Math.min(page - 1, pages))}
+              aria-disabled={page === 1}
+              tabIndex={page === 1 ? -1 : undefined}
+              className={
+                page === 1 ? "pointer-events-none opacity-50" : undefined
+              }
+            />
+          </PaginationItem>
+          {renderPageNumbers()}
+          <PaginationItem className="hover:cursor-pointer">
+            <PaginationNext
+              onClick={() => goToPage(Math.min(page + 1, pages))}
+              aria-disabled={page === pages}
+              tabIndex={page === pages ? -1 : undefined}
+              className={
+                page === pages ? "pointer-events-none opacity-50" : undefined
+              }
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }

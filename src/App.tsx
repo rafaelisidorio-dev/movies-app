@@ -5,12 +5,13 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 import logoFooter from "/logo-footer.svg";
-import { Pagination } from "./components/Pagination";
+import { PaginationSection } from "./components/Pagination";
 
 export interface MoviesProps {
   page: number;
   results: MovieProps[];
   total_pages: number;
+  total_results: number;
 }
 
 interface MovieProps {
@@ -23,9 +24,10 @@ interface MovieProps {
 export function App() {
   const [movies, setMovies] = useState<MoviesProps>();
   const [searchTerm, setSearchTerm] = useState("");
-
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
+  const [pages, setPages] = useState<number>();
+  const [loading, setLoading] = useState(true);
 
   // TODO: Bug fix, this function isn't working
   // Reset page to 1 when changing search
@@ -54,7 +56,10 @@ export function App() {
       })
       .then((response) => {
         setMovies(response.data);
+        setPages(response.data.total_pages);
         console.log(response.data);
+
+        setLoading(false);
       })
       .catch((error) => console.error(error));
   }, [searchTerm, page]);
@@ -64,11 +69,15 @@ export function App() {
       <NavBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
       <main className="p-5 md:p-6">
-        <MoviesList movies={movies!} />
+        {loading ? (
+          <h1 className="font-semibold">Carregando...</h1>
+        ) : (
+          <MoviesList movies={movies!} />
+        )}
       </main>
 
       <div className="flex items-center justify-center my-5">
-        <Pagination />
+        <PaginationSection page={page} pages={pages!} />
       </div>
 
       <footer className="w-full bg-[rgba(3,37,65,1)] bottom-0 flex items-center justify-center py-5">
