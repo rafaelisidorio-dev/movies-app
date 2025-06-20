@@ -17,7 +17,7 @@ This website was built to search and show movies/tv shows from TMDB API <br/>
 <br>
 
 <p align="center">
-  <img src="/screenshot.png" width="100%">
+  <img src="public/screenshot.png" width="100%">
 </p>
 
 ## 🚀 Technologies
