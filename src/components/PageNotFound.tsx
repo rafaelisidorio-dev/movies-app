@@ -1,5 +1,6 @@
 import logo from "/logo.svg";
 import { Footer } from "./Footer";
+import { Link } from "react-router-dom";
 
 export function PageNotFound() {
   return (
@@ -7,7 +8,9 @@ export function PageNotFound() {
       <header>
         <nav className="bg-[rgba(3,37,65,1)] py-5">
           <div className="flex items-center justify-center sm:gap-0 mx-5 md:mx-6">
-            <img className="w-[154px] h-[20px]" src={logo} />
+            <Link to="/">
+              <img className="w-[154px] h-[20px]" src={logo} />
+            </Link>
           </div>
         </nav>
       </header>

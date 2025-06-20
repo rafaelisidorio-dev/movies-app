@@ -1,5 +1,6 @@
 import type { ChangeEvent } from "react";
 import logo from "/logo.svg";
+import { Link } from "react-router-dom";
 
 interface NavBarProps {
   searchTerm: string;
@@ -11,7 +12,9 @@ export function NavBar({ searchTerm, setSearchTerm }: NavBarProps) {
     <header>
       <nav className="bg-[rgba(3,37,65,1)] py-5">
         <div className="flex items-center justify-between gap-2 sm:gap-0 mx-5 md:mx-6">
-          <img className="w-[154px] h-[20px]" src={logo} />
+          <Link to="/">
+            <img className="w-[154px] h-[20px]" src={logo} />
+          </Link>
 
           <div className="text-slate-400 hidden md:flex md:items-center md:gap-8 ">
             <a href="#" className="text-base font-semibold">
