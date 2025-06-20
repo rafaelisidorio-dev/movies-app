@@ -25,19 +25,18 @@ export function App() {
   const [movies, setMovies] = useState<MoviesProps>();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
   const [pages, setPages] = useState<number>();
   const [loading, setLoading] = useState(true);
+  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
 
-  // TODO: Bug fix, this function isn't working
-  // Reset page to 1 when changing search
-  function onChangeSearch() {
+  useEffect(() => {
+    // Reset page to 1 when changing search
     setSearchParams((params) => {
       params.set("page", String(1));
 
       return params;
     });
-  }
+  }, [searchTerm]); // Dependency array: useEffect runs when 'searchTerm' changes
 
   // Run effect to load movies when the page or the searchTerm changes
   useEffect(() => {

@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 interface PaginationProps {
   pages: number;
   page: number;
-  goToPage: (pageNumber: number) => void;
 }
 
 export function PaginationSection({ pages, page }: PaginationProps) {
