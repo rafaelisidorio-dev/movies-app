@@ -35,14 +35,14 @@ export function PaginationSection({ pages, page }: PaginationProps) {
         <PaginationLink onClick={() => goToPage(1)} isActive={page === 1}>
           1
         </PaginationLink>
-      </PaginationItem>,
+      </PaginationItem>
     );
 
     if (page > 3) {
       items.push(
         <PaginationItem key="ellipsis-start">
           <PaginationEllipsis />
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 
@@ -55,7 +55,7 @@ export function PaginationSection({ pages, page }: PaginationProps) {
           <PaginationLink onClick={() => goToPage(i)} isActive={page === i}>
             {i}
           </PaginationLink>
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 
@@ -63,7 +63,7 @@ export function PaginationSection({ pages, page }: PaginationProps) {
       items.push(
         <PaginationItem key="ellipsis-end">
           <PaginationEllipsis />
-        </PaginationItem>,
+        </PaginationItem>
       );
     }
 
@@ -75,7 +75,7 @@ export function PaginationSection({ pages, page }: PaginationProps) {
         >
           {pages}
         </PaginationLink>
-      </PaginationItem>,
+      </PaginationItem>
     );
 
     return items;

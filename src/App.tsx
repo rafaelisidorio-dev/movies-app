@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 
-import logoFooter from "/logo-footer.svg";
 import { PaginationSection } from "./components/Pagination";
+import { Footer } from "./components/Footer";
 
 export interface MoviesProps {
   page: number;
@@ -79,9 +79,7 @@ export function App() {
         <PaginationSection page={page} pages={pages!} />
       </div>
 
-      <footer className="w-full bg-[rgba(3,37,65,1)] bottom-0 flex items-center justify-center py-5">
-        <img className="w-[130px] h-[94px]" src={logoFooter} />
-      </footer>
+      <Footer />
     </div>
   );
 }
